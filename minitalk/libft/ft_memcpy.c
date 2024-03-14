@@ -3,31 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ealgar-c <ealgar-c@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: oallan <oallan@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/17 18:12:33 by ealgar-c          #+#    #+#             */
-/*   Updated: 2023/05/20 21:07:10 by ealgar-c         ###   ########.fr       */
+/*   Created: 2023/12/24 19:10:22 by oallan            #+#    #+#             */
+/*   Updated: 2023/12/30 18:49:58 by oallan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include <stdlib.h>
 #include "libft.h"
 
 void	*ft_memcpy(void *dst, const void *src, size_t n)
 {
-	size_t		cont;
-	char		*ptr_dest;
-	const char	*ptr_src;
+	size_t			i;
+	unsigned char	*from;
+	unsigned char	*to;
 
-	if (!src && !dst)
+	from = ((unsigned char *)src);
+	to = ((unsigned char *)dst);
+	i = 0;
+	if (!dst && !src)
 		return (0);
-	ptr_dest = (char *)dst;
-	ptr_src = (const char *)src;
-	cont = 0;
-	while (cont < n)
+	while (n > i)
 	{
-		ptr_dest[cont] = (const char)ptr_src[cont];
-		cont++;
+		to[i] = from[i];
+		i++;
 	}
-	return (dst);
+	return (to);
 }

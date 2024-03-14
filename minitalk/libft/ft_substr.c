@@ -3,29 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ealgar-c <ealgar-c@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: oallan <oallan@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/19 15:38:23 by ealgar-c          #+#    #+#             */
-/*   Updated: 2023/05/11 21:51:40 by ealgar-c         ###   ########.fr       */
+/*   Created: 2023/12/25 16:24:43 by oallan            #+#    #+#             */
+/*   Updated: 2023/12/30 20:11:42 by oallan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "libft.h"
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	char	*s_copy;
+	char	*dest;
+	size_t	i;
+	size_t	s_size;
 
+	i = 0;
 	if (!s)
 		return (0);
-	if ((size_t)ft_strlen(s) < start)
+	s_size = ft_strlen(s);
+	if (start > s_size)
 		return (ft_strdup(""));
-	if ((size_t)ft_strlen(s) < start + len)
-		len = ft_strlen(s) - start;
-	s_copy = malloc((len + 1) * sizeof(char));
-	if (s_copy == NULL)
+	if (len > s_size)
+		len = s_size;
+	dest = (char *)malloc(sizeof(char) * (len + 1));
+	if (!dest)
 		return (0);
-	ft_memcpy(s_copy, s + start, len);
-	s_copy[len] = '\0';
-	return (s_copy);
+	while (len > i && s[start + i] != '\0')
+	{
+		dest[i] = s[start + i];
+		i++;
+	}
+	dest[i] = '\0';
+	return (dest);
 }

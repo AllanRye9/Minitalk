@@ -3,14 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putchar_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ealgar-c <ealgar-c@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: oallan <oallan@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/21 10:31:20 by ealgar-c          #+#    #+#             */
-/*   Updated: 2023/05/20 21:08:20 by ealgar-c         ###   ########.fr       */
+/*   Created: 2023/12/26 21:51:24 by oallan            #+#    #+#             */
+/*   Updated: 2023/12/30 18:54:21 by oallan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include <unistd.h>
 #include "libft.h"
 
 void	ft_putchar_fd(char c, int fd)

@@ -3,51 +3,59 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ealgar-c <ealgar-c@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: oallan <oallan@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/20 16:37:42 by ealgar-c          #+#    #+#             */
-/*   Updated: 2023/05/20 21:07:35 by ealgar-c         ###   ########.fr       */
+/*   Created: 2023/12/26 19:17:12 by oallan            #+#    #+#             */
+/*   Updated: 2023/12/30 17:26:42 by oallan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include <stdlib.h>
 #include "libft.h"
 
-static int	ft_dcount(long int n)
+static int	count(int nb)
 {
-	int	i;
+	int			i;
+	long int	num;
 
+	num = nb;
 	i = 0;
-	while (n >= 10)
+	if (num == 0)
+		i++;
+	if (num < 0)
 	{
 		i++;
-		n /= 10;
+		num *= -1;
 	}
-	return (i + 1);
+	while (num > 0)
+	{
+		i++;
+		num = num / 10;
+	}
+	return (i);
 }
 
 char	*ft_itoa(int n)
 {
-	char			*str;
-	long int		n_copy;
-	int				n_len;
+	char	*results;
+	int		num_len;
+	long	num;
 
-	n_copy = n;
-	if (n_copy < 0)
-		n_copy *= -1;
-	n_len = ft_dcount(n_copy);
-	if (n < 0)
-		n_len++;
-	str = malloc((n_len + 1) * sizeof(char));
-	if (!str)
-		return (NULL);
-	str[n_len--] = '\0';
-	while (n_len >= 0)
+	num_len = count(n);
+	num = n;
+	results = malloc(sizeof(char) * (num_len + 1));
+	if (!results)
+		return (0);
+	results[num_len--] = 0;
+	if (num == 0)
+		results[0] = '0';
+	if (num < 0)
 	{
-		str[n_len--] = (n_copy % 10) + '0';
-		n_copy /= 10;
+		results[0] = '-';
+		num *= -1;
 	}
-	if (n < 0)
-		str[0] = '-';
-	return (str);
+	while (num > 0)
+	{
+		results[num_len--] = (num % 10) + '0';
+		num /= 10;
+	}
+	return (results);
 }

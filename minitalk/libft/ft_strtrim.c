@@ -3,87 +3,44 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ealgar-c <ealgar-c@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: oallan <oallan@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/19 17:20:22 by ealgar-c          #+#    #+#             */
-/*   Updated: 2023/05/20 21:09:03 by ealgar-c         ###   ########.fr       */
+/*   Created: 2023/12/25 20:46:22 by oallan            #+#    #+#             */
+/*   Updated: 2023/12/30 20:03:45 by oallan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include <stdlib.h>
 #include "libft.h"
 
-static int	initial_pos(char const *s1, char const *set)
+static	int	is_met(char c, char *str)
 {
-	int	a;
-	int	b;
+	int	i;
 
-	a = 0;
-	b = 0;
-	while (s1[a])
+	i = 0;
+	while (str[i] != '\0')
 	{
-		while (set[b])
-		{
-			if (s1[a] == set[b])
-			{
-				a++;
-				break ;
-			}
-			b++;
-		}
-		if (b == ft_strlen(set))
-			return (a);
-		b = 0;
-	}
-	return (0);
-}
-
-static int	final_pos(char const *s1, char const *set)
-{
-	int	len;
-	int	j;
-
-	len = 0;
-	j = 0;
-	while (s1[len])
-		len++;
-	while (len > 0)
-	{
-		while (set[j])
-		{
-			if (s1[len - 1] == set[j])
-			{
-				len--;
-				break ;
-			}
-			j++;
-		}
-		if (j == ft_strlen((char *)set))
-			return (len);
-		j = 0;
+		if (str[i] == c)
+			return (1);
+		i++;
 	}
 	return (0);
 }
 
 char	*ft_strtrim(char const *s1, char const *set)
 {
-	int		ini;
-	int		fin;
-	int		i;
-	char	*ret_str;
+	size_t	x;
+	size_t	i;
+	char	*large_str;
+	char	*str;
+	char	*results;
 
+	large_str = (char *)s1;
+	str = (char *)set;
+	x = ft_strlen(large_str);
 	i = 0;
-	ini = initial_pos(s1, set);
-	fin = final_pos(s1, set);
-	ret_str = malloc((fin - ini + 1) * sizeof(char));
-	if (ret_str == NULL)
-		return (NULL);
-	while (ini < fin)
-	{
-		ret_str[i] = s1[ini];
+	while (large_str && is_met(large_str[i], str))
 		i++;
-		ini++;
-	}
-	ret_str[i] = '\0';
-	return (ret_str);
+	while (large_str && is_met(large_str[x - 1], str))
+		x--;
+	results = ft_substr(large_str, i, (x - i));
+	return (results);
 }

@@ -3,53 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ealgar-c <ealgar-c@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: oallan <oallan@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/14 20:55:24 by ealgar-c          #+#    #+#             */
-/*   Updated: 2023/05/20 21:08:49 by ealgar-c         ###   ########.fr       */
+/*   Created: 2023/12/22 17:52:34 by oallan            #+#    #+#             */
+/*   Updated: 2023/12/30 19:44:29 by oallan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include <stdlib.h>
 #include "libft.h"
 
-size_t	ft_strlcat(char *dest, char *src, size_t size)
+size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
 {
-	size_t	a;
-	size_t	b;
-	size_t	result;
+	size_t	i;
+	size_t	len;
 
-	a = 0;
-	b = 0;
-	result = 0;
-	while (dest[a] != '\0')
-		a++;
-	while (src[result] != '\0')
-		result++;
-	if (size <= a)
-		result += size;
-	else
-		result += a;
-	while (src[b] != '\0' && (a + 1) < size)
+	i = 0;
+	len = ft_strlen(dst);
+	if (dstsize == 0)
+		return (ft_strlen(src));
+	while (src[i] != '\0' && i + len < dstsize - 1)
 	{
-		dest[a] = src[b];
-		a++;
-		b++;
+		dst[i + len] = src[i];
+		i++;
 	}
-	dest[a] = '\0';
-	return (result);
+	dst[i + len] = '\0';
+	if (len >= dstsize)
+		return (ft_strlen(src) + dstsize);
+	else
+		return (ft_strlen(src) + len);
 }
-
-/*
-#include <stdio.h>
-int	main(void)
-{
-	char			s1[45] = "Sol ";
-	char			s2[45] = "dejar de vivir";
-	size_t	size;
-
-	size = 2;
-	printf("%s\n%u", s1, ft_strlcat(s1, s2, size));
-	return (0);
-}
-*/

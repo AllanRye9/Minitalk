@@ -1,28 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memchr.c                                        :+:      :+:    :+:   */
+/*   ft_printf_pointer.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: oallan <oallan@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/22 22:12:15 by oallan            #+#    #+#             */
-/*   Updated: 2023/12/30 18:07:27 by oallan           ###   ########.fr       */
+/*   Created: 2024/01/01 21:44:34 by oallan            #+#    #+#             */
+/*   Updated: 2024/01/05 16:55:19 by oallan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
 
-void	*ft_memchr(const void *s, int c, size_t n)
+int	ft_printf_pointer(unsigned long long pointer, int pointer_prefix)
 {
-	size_t				i;
-	const unsigned char	*cp;
+	int		res;
+	char	*base_char;
 
-	i = 0;
-	cp = (const unsigned char *)s;
-	while (n > i)
+	res = 0;
+	base_char = "0123456789abcdef";
+	if (pointer_prefix == 0)
 	{
-		if (cp[i] == (unsigned char)c)
-			return ((void *)cp + i);
-		i++;
+		res += write(1, "0x", 2);
+		pointer_prefix = 1;
 	}
-	return (0);
+	if (pointer >= 16)
+	{
+		res += ft_printf_pointer(pointer / 16, pointer_prefix);
+		pointer %= 16;
+	}
+	if (pointer < 16)
+		res += write(1, &base_char[pointer], 1);
+	return (res);
 }

@@ -3,38 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ealgar-c <ealgar-c@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: oallan <oallan@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/18 15:34:29 by ealgar-c          #+#    #+#             */
-/*   Updated: 2023/04/19 12:54:02 by ealgar-c         ###   ########.fr       */
+/*   Created: 2023/12/23 18:37:43 by oallan            #+#    #+#             */
+/*   Updated: 2023/12/30 19:55:24 by oallan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+#include "libft.h"
 
-#include <stdlib.h>
-
-char	*ft_strnstr(const char *str, const char *to_find, size_t len)
+char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
 {
-	int	i;
-	int	j;
+	char	*main_str;
+	char	*to_find;
+	size_t	i;
+	size_t	x;
 
-	if (to_find[0] == '\0' || (len == 0 && !str))
-		return ((char *)str);
 	i = 0;
-	while (str[i] != '\0' && (size_t)i < len)
+	x = 0;
+	main_str = (char *)haystack;
+	to_find = (char *)needle;
+	if (to_find[0] == '\0')
+		return (main_str);
+	else if (main_str[0] == '\0' && to_find[0] == '\0')
+		return (0);
+	while (main_str[i] != '\0')
 	{
-		j = 0;
-		while (to_find[j] != '\0' && (size_t)i + j < len)
+		while (main_str[i + x] == to_find[x] && len > (i + x))
 		{
-			if (str[i + j] == to_find[j])
-			{
-				j++;
-			}
-			else
-				break ;
-		}
-		if (to_find[j] == '\0')
-		{
-			return ((char *)str + i);
+			if (to_find[x + 1] == '\0')
+				return (&main_str[i]);
+			x++;
 		}
 		i++;
 	}

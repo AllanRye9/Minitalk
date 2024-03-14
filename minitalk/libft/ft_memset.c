@@ -3,27 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ealgar-c <ealgar-c@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: oallan <oallan@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/17 15:38:57 by ealgar-c          #+#    #+#             */
-/*   Updated: 2023/05/20 21:08:02 by ealgar-c         ###   ########.fr       */
+/*   Created: 2023/12/22 15:02:37 by oallan            #+#    #+#             */
+/*   Updated: 2023/12/30 18:53:34 by oallan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include <stdlib.h>
 #include "libft.h"
 
 void	*ft_memset(void *b, int c, size_t len)
 {
-	size_t			counter;
-	unsigned char	*ptr;
+	size_t	i;
+	char	*copy;
 
-	counter = 0;
-	ptr = (unsigned char *)b;
-	while (counter < len)
+	i = 0;
+	copy = ((char *)b);
+	while (len > i)
 	{
-		ptr[counter] = (unsigned char)c;
-		counter++;
+		copy[i] = c;
+		i++;
 	}
-	return (b);
+	return (copy);
 }
