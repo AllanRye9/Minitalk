@@ -11,13 +11,12 @@ SRCS =	ft_atoi.c ft_itoa.c ft_isprint.c ft_isdigit.c ft_isascii.c ft_isalpha.c f
 		ft_strncmp.c ft_strnstr.c ft_strrchr.c ft_strtrim.c ft_substr.c ft_tolower.c ft_toupper.c\
 		ft_lstnew.c ft_lstsize.c ft_lstmap.c ft_lstlast.c  ft_lstiter.c ft_lstdelone.c ft_lstclear.c\
 		ft_lstadd_front.c ft_lstadd_back.c ft_printf_char.c ft_printf_interger.c ft_printf_pointer.c \
-		ft_printf_specifier.c ft_printf_str.c ft_printf.c get_next_line.c get_next_line_bonus.c ft_straddc\
-		ft_straddc_first.c
+		ft_printf_specifier.c ft_printf_str.c ft_printf.c get_next_line.c get_next_line_bonus.c ft_straddc.c
 
 OBJS_SRCS= $(SRCS:%.c=%.o)
 
 %.o: %.c
-	$(CC) $(CFLAGS) $(HEADER) -c $< -o $@ 
+	$(CC) $(CFLAGS) -c $< -o $@ 
 
 $(NAME): $(OBJS_SRCS)
 	ar rcs $@ $^
