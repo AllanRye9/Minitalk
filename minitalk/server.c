@@ -1,22 +1,9 @@
 #include "./libft/libft.h"
 #include <unistd.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
 #include <signal.h>
-
-
-# define ANSI_COLOR_RED		"\x1b[31m"
-# define ANSI_COLOR_BLUE	"\x1b[34m"
-# define ANSI_COLOR_GREEN	"\x1b[32m"
-# define ANSI_COLOR_YELLOW	"\x1b[33m"
-# define ANSI_COLOR_RESET	"\x1b[0m"
-
-void	ft_putstr_color_fd(char *color, char *s, int fd)
-{
-	ft_putstr_fd(color, fd);
-	ft_putstr_fd(s, fd);
-	ft_putstr_fd(ANSI_COLOR_RESET, fd);
-}
 
 void	error(int pid, char *str)
 {
@@ -34,34 +21,45 @@ char	*print_string(char *message)
 	return (NULL);
 }
 
-/*
-** This function is called every time server receives a signal - SIGUSR1 or 
-** SIGUSR2 from client.
-** SIGUSR1 represents a 0; SIGUSR2 represents 1. By getting these signals from
-** client server is able to recreate the string - receiving it bit-by-bit -
-** using bitwise operations.
-**
-** @line		- The function starts by adding the bit - 0 or 1 depending on
-** 				the signal it received from client - in a static variable type
-** 				char 'c'.
-**
-** @line		- Once 8 signals are received - handler_sigusr() is
-** 				called 8 times or bits == 8 - then the character is complete and
-** 				is then added to another static variable type char * - 'message'
-** 				
-** @line		- if the received character represents the null character, then
-** 				nothing more is added to 'message' and the function
-** 				print_string() is called to print the message, that is then set
-** 				back to null.
-**
-** @line		- After receiving the signal and successfully storing the bit
-** 				in the string, server sends a SIGUSR1 signal to client as
-** 				confirmation it received the bit it send and that is ready for
-** 				another.
-*/
-void	handler_sigusr(int signum, siginfo_t *info, void *context)
+static char	* ft_straddc_first(char c)
 {
-	static char	c = 0xFF;
+	char	*add;
+
+	add = (char *)malloc(sizeof(char) * 2);
+	if (!add)
+		return (0);
+	add[0] = c;
+	add[1] = '\0';
+	return (add);
+}
+
+static char  * ft_straddc(char *str, char c)
+{
+	char	*add;
+	int		i;
+
+	if (!c)
+		return (NULL);
+	if (!str)
+		return (ft_straddc_first(c));
+	add = (char *)malloc(sizeof(char) * (ft_strlen(str) + 2));
+	if (!add)
+	{
+		free(str);
+		return (NULL);
+	}
+	i = -1;
+	while (str[++i])
+		add[i] = str[i];
+	free(str);
+	add[i++] = c;
+	add[i] = '\0';
+	return (add);
+}
+
+void	signal_handler(int signum, siginfo_t *info, void *context)
+{
+	static char	c = 0XFF;
 	static int	bits = 0;
 	static int	pid = 0;
 	static char	*message = 0;
@@ -86,21 +84,6 @@ void	handler_sigusr(int signum, siginfo_t *info, void *context)
 		error(pid, message);
 }
 
-/*
-** This is the main function of server.
-**
-** @line 115-123	- It starts by setting up the function that will receive the
-** 					signals from a client - sigaction() used instead of signal()
-** 					in order to get the parameter 'info->si_pid' the pid of the
-** 					sender - client.
-**
-** @line 124-127	- Once the setting up is done, server uses the function
-** 					getpid() to output to the user its PID. This will later be
-** 					used to compile client.
-**
-** @line 128-129	- The function then enters an infinite pause() loop waiting
-** 					for signals from client.
-*/
 int	main(void)
 {
 	struct sigaction	sa_signal;
@@ -112,11 +95,10 @@ int	main(void)
 	sa_signal.sa_handler = 0;
 	sa_signal.sa_flags = SA_SIGINFO;
 	sa_signal.sa_mask = block_mask;
-	sa_signal.sa_sigaction = handler_sigusr;
+	sa_signal.sa_sigaction = signal_handler;
 	sigaction(SIGUSR1, &sa_signal, NULL);
 	sigaction(SIGUSR2, &sa_signal, NULL);
-	ft_putstr_color_fd(ANSI_COLOR_GREEN,
-		"PID: ", 1);
+	ft_putstr_fd("PID: ", 1);
 	ft_putnbr_fd(getpid(), 1);
 	ft_putstr_fd("\n", 1);
 	while (1)

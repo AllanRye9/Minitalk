@@ -97,7 +97,4 @@ char	*read_line(int fd, char *str);
 int	ft_error(ssize_t out_p, char *buff, char *ptr);
 char	*next_line(char *str);
 
-//others
-char * ft_straddc(char *str, char c);
-
 #endif
