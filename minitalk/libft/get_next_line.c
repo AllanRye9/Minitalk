@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: oallan <oallan@student.42abudhabi.ae>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/30 16:59:11 by oallan            #+#    #+#             */
-/*   Updated: 2024/01/30 16:59:28 by oallan           ###   ########.fr       */
+/*   Created: 2024/01/30 17:02:34 by oallan            #+#    #+#             */
+/*   Updated: 2024/01/30 17:02:41 by oallan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
 
-char	*next_line(char *str)
+static char	*next_line(char *str)
 {
 	char	*p;
 	int		i;
@@ -26,8 +26,8 @@ char	*next_line(char *str)
 		return (NULL);
 	}
 	p = malloc(sizeof(char) * ft_strlen(str) - i);
-	j = 0;
 	i++;
+	j = 0;
 	while (str[i])
 		p[j++] = str[i++];
 	p[j] = '\0';
@@ -35,7 +35,7 @@ char	*next_line(char *str)
 	return (p);
 }
 
-int	ft_error(ssize_t out_p, char *buff, char *ptr)
+static int	ft_error(ssize_t out_p, char *buff, char *ptr)
 {
 	if (out_p < 0)
 	{
@@ -59,7 +59,7 @@ int	ft_error(ssize_t out_p, char *buff, char *ptr)
 	return (0);
 }
 
-char	*read_line(int fd, char *str)
+static char	*read_line(int fd, char *str)
 {
 	char	*buff;
 	char	*t;
@@ -87,7 +87,7 @@ char	*read_line(int fd, char *str)
 	return (str);
 }
 
-char	*copy_line(char *str)
+static char	*copy_line(char *str)
 {
 	int		i;
 	char	*line;
@@ -104,13 +104,13 @@ char	*copy_line(char *str)
 
 char	*get_next_line(int fd)
 {
-	static char	*ptr;
+	static char	*ptr[10240];
 	char		*line;
 
-	ptr = read_line(fd, ptr);
-	if (!ptr)
+	ptr[fd] = read_line(fd, ptr[fd]);
+	if (!ptr[fd])
 		return (NULL);
-	line = copy_line(ptr);
-	ptr = next_line(ptr);
+	line = copy_line(ptr[fd]);
+	ptr[fd] = next_line(ptr[fd]);
 	return (line);
 }

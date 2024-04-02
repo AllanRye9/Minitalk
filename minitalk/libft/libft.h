@@ -9,24 +9,22 @@
 /*   Updated: 2023/12/30 20:44:39 by oallan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#ifndef LIBFT_H
+# ifndef LIBFT_H
 # define LIBFT_H
 
-# include <stdio.h>
 # include <stdlib.h>
+# include <stdarg.h> 
+# include <stdint.h>
 # include <unistd.h>
 # include <string.h>
-# include <ctype.h>
 # include <stddef.h>
-# include <stdio.h> 
-# include <unistd.h> 
-# include <stdarg.h> 
-# include <limits.h>
-# include <stdint.h>
-# include <stdlib.h>
+# include <ctype.h>
 # include <fcntl.h>
+# include <limits.h>
+# include <stddef.h>
 
 # define PTR_NULL "(nil)"
+
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 1024
 # endif
@@ -82,7 +80,10 @@ void	ft_lstclear(t_list **lst, void (*del)(void *));
 void	ft_lstiter(t_list *lst, void (*f)(void *));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 
-//printf files
+//get next line
+char	*get_next_line(int fd);
+
+//printf
 int		ft_printf_char(int c);
 int		ft_printf_str(char *str);
 int		ft_printf_interger(long num, int base, int islower);
@@ -90,11 +91,4 @@ int		ft_printf_pointer(unsigned long long pointer, int pointer_prefix);
 int		ft_printf_specifier(char specified, va_list ap);
 int		ft_printf(const char *form, ...);
 
-//get next line files
-char	*get_next_line(int fd);
-char	*copy_line(char *str);
-char	*read_line(int fd, char *str);
-int	ft_error(ssize_t out_p, char *buff, char *ptr);
-char	*next_line(char *str);
-
-#endif
+# endif

@@ -24,18 +24,17 @@ int	send_null(int pid, char *str)
 
 int	send_bit(int pid, char *str)
 {
-	static char	*message;
+	static char	*message = 0;
 	static int	s_pid = 0;
 	static int	bits = -1;
 
 	if (str)
 		message = ft_strdup(str);
 	if (!message)
-		error(message);
+		error(0);
 	if (pid)
 		s_pid = pid;
-	++bits;
-	if (message[bits / 8])
+	if (message[++bits / 8])
 	{
 		if (message[bits / 8] & (0x80 >> (bits % 8)))
 		{
@@ -58,11 +57,17 @@ void	signal_handler(int signum)
 
 	end = 0;
 	if (signum == SIGUSR1)
-		end = send_bit(0, NULL);
+		end = send_bit(0, 0);
 	else if (signum == SIGUSR2)
+	{
+		ft_putstr_fd("client: server ended unexpectdly.\n", 2);
 		exit(EXIT_FAILURE);
+	}
 	if (end)
+	{
+		ft_putstr_fd("client: *** operation successful. ***\n", 1);
 		exit(EXIT_SUCCESS);
+	}
 }
 
 int	main(int argc, char **argv)

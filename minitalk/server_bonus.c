@@ -47,6 +47,7 @@ static char  * ft_straddc(char *str, char c)
 	i = -1;
 	while (str[++i])
 		add[i] = str[i];
+	free(str);
 	add[i++] = c;
 	add[i] = '\0';
 	return (add);
@@ -66,8 +67,7 @@ void	signal_handler(int signum, siginfo_t *info, void *context)
 		c ^= 0x80 >> bits;
 	else if (signum == SIGUSR2)
 		c |= 0x80 >> bits;
-	++bits;
-	if (bits == 8)
+	if (++bits == 8)
 	{
 		if (c)
 			message = ft_straddc(message, c);
